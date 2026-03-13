@@ -1,0 +1,5 @@
+{
+  "name": "Local-First Workspace",
+  "description": "A local-first workspace application with document editing, whiteboard, and database views.",
+  "requestFramePermissions": []
+}

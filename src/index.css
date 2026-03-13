@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .prose {
+    @apply text-gray-800 leading-relaxed;
+  }
+  .prose p {
+    @apply my-4;
+  }
+  .prose h1 {
+    @apply text-3xl font-bold mt-8 mb-4;
+  }
+  .prose h2 {
+    @apply text-2xl font-bold mt-8 mb-4;
+  }
+  .prose h3 {
+    @apply text-xl font-bold mt-6 mb-3;
+  }
+  .prose ul {
+    @apply list-disc list-inside my-4;
+  }
+  .prose ol {
+    @apply list-decimal list-inside my-4;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4;
+  }
+  .prose pre {
+    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4 text-sm font-mono text-gray-800;
+  }
+  .prose code {
+    @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600;
+  }
+  .prose pre code {
+    @apply bg-transparent p-0 text-gray-800;
+  }
+  .prose p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+  ul[data-type="taskList"] {
+    @apply list-none p-0;
+  }
+  ul[data-type="taskList"] li {
+    @apply flex items-start gap-2 my-2;
+  }
+  ul[data-type="taskList"] li > label {
+    @apply flex-shrink-0 mt-1;
+  }
+  ul[data-type="taskList"] li > div {
+    @apply flex-1;
+  }
+}

@@ -7,10 +7,12 @@ import { useEffect, useState } from 'react';
 import { db, type Page } from '../db/db';
 import { useStore } from '../store/useStore';
 import { format } from 'date-fns';
+import { getPageIconComponent } from '../lib/pageIcons';
 
 export function DocumentEditor({ page }: { page: Page }) {
   const [title, setTitle] = useState(page.title);
   const { toggleSidebar, sidebarOpen } = useStore();
+  const PageIcon = getPageIconComponent(page);
 
   const editor = useEditor({
     extensions: [
@@ -49,21 +51,27 @@ export function DocumentEditor({ page }: { page: Page }) {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-white">
-      <div className="max-w-4xl mx-auto px-4 py-6 md:px-8 md:py-12">
-        <div className="mb-6 md:mb-8">
+    <div className="glass-panel-strong fade-slide-up h-full overflow-y-auto rounded-[32px] bg-white/70">
+      <div className="mx-auto max-w-5xl px-6 py-8 md:px-10 md:py-12">
+        <div className="mb-8 border-b border-slate-200/70 pb-8 md:mb-10">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-100 bg-cyan-50/80 px-3 py-1.5 text-sm font-medium text-cyan-800">
+            <PageIcon className="h-4 w-4" />
+            <span>Presentation Document</span>
+          </div>
           <input
             type="text"
             value={title}
             onChange={handleTitleChange}
             placeholder="Untitled Document"
-            className="text-3xl md:text-4xl font-bold w-full border-none outline-none placeholder-gray-300 text-gray-900 bg-transparent"
+            className="w-full border-none bg-transparent font-semibold tracking-tight text-slate-950 outline-none placeholder:text-slate-300 text-4xl md:text-6xl"
           />
-          <div className="text-xs md:text-sm text-gray-400 mt-2">
+          <div className="mt-3 text-xs font-medium uppercase tracking-[0.24em] text-slate-400 md:text-sm">
             Last edited on {format(page.updatedAt, 'MMM d, yyyy h:mm a')}
           </div>
         </div>
-        <EditorContent editor={editor} />
+        <div className="glass-panel rounded-[28px] px-6 py-4 md:px-8 md:py-6">
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </div>
   );

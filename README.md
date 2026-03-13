@@ -2,11 +2,9 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# Run locally
 
 This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/a479e22b-45b6-4f4c-b115-ea0a92cf42cf
 
 ## Run Locally
 
@@ -14,7 +12,8 @@ View your app in AI Studio: https://ai.studio/apps/a479e22b-45b6-4f4c-b115-ea0a9
 
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   `pnpm install`
+2. Set the `DASHSCOPE_API_KEY` in [.env.local](.env.local) to your Alibaba Cloud Model Studio API key
+3. Optional: set `DASHSCOPE_MODEL` if you want a model other than `qwen3.5-plus`
+4. Run the app:
+   `pnpm dev`

@@ -140,38 +140,38 @@ export function DatabaseEditor({ page }: { page: Page }) {
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-white">
-      <div className="flex-shrink-0 px-4 py-4 md:px-8 md:py-6 border-b border-gray-100 flex flex-col gap-3 md:gap-4">
+    <div className="glass-panel-strong fade-slide-up flex h-full w-full flex-col overflow-hidden rounded-[32px]">
+      <div className="flex-shrink-0 border-b border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(248,250,252,0.84))] px-5 py-5 md:px-8 md:py-7 flex flex-col gap-4">
         <input
           type="text"
           value={title}
           onChange={handleTitleChange}
           placeholder="Untitled Database"
-          className="text-2xl md:text-3xl font-bold border-none outline-none placeholder-gray-300 text-gray-900 bg-transparent"
+          className="border-none bg-transparent text-3xl font-semibold tracking-tight text-slate-950 outline-none placeholder:text-slate-300 md:text-5xl"
         />
         <div className="flex items-center gap-2 overflow-x-auto pb-1 -mb-1 hide-scrollbar">
           <button
             onClick={() => { setView('table'); saveContent('table', columns, rows); }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${view === 'table' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'}`}
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${view === 'table' ? 'bg-slate-950 text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)]' : 'bg-white/70 text-slate-600 hover:bg-white hover:text-slate-900'}`}
           >
             <TableIcon className="w-4 h-4" /> Table
           </button>
           <button
             onClick={() => { setView('kanban'); saveContent('kanban', columns, rows); }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${view === 'kanban' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'}`}
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${view === 'kanban' ? 'bg-slate-950 text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)]' : 'bg-white/70 text-slate-600 hover:bg-white hover:text-slate-900'}`}
           >
             <LayoutGrid className="w-4 h-4" /> Kanban
           </button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-4 md:p-8 bg-gray-50/50">
+      <div className="flex-1 overflow-auto bg-[linear-gradient(180deg,rgba(241,245,249,0.45),rgba(226,232,240,0.18))] p-4 md:p-8">
         {view === 'table' ? (
           <div className="max-w-6xl mx-auto">
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-x-auto">
+            <div className="glass-panel rounded-[28px] overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[600px]">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-white/75">
+                  <tr className="border-b border-slate-200/80">
                     {columns.map(col => (
                       <th key={col.id} className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0 group relative min-w-[120px]">
                         <div className="flex flex-col gap-1">

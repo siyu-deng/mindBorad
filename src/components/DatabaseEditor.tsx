@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { db, type Page } from '../db/db';
 import { useStore } from '../store/useStore';
 import { format } from 'date-fns';
-import { Plus, Table as TableIcon, LayoutGrid, MoreHorizontal, Trash2 } from 'lucide-react';
+import { Plus, Table as TableIcon, LayoutGrid, MoreHorizontal, Trash2, X } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
@@ -89,6 +89,33 @@ export function DatabaseEditor({ page }: { page: Page }) {
     saveContent(view, newCols, rows);
   };
 
+  const updateColumnName = (colId: string, newName: string) => {
+    const newCols = columns.map(c => c.id === colId ? { ...c, name: newName } : c);
+    setColumns(newCols);
+    saveContent(view, newCols, rows);
+  };
+
+  const updateColumnType = (colId: string, newType: 'text' | 'status' | 'date') => {
+    const newCols = columns.map(c => {
+      if (c.id === colId) {
+        const updatedCol = { ...c, type: newType };
+        if (newType === 'status' && !updatedCol.options) {
+          updatedCol.options = ['To Do', 'In Progress', 'Done'];
+        }
+        return updatedCol;
+      }
+      return c;
+    });
+    setColumns(newCols);
+    saveContent(view, newCols, rows);
+  };
+
+  const deleteColumn = (colId: string) => {
+    const newCols = columns.filter(c => c.id !== colId);
+    setColumns(newCols);
+    saveContent(view, newCols, rows);
+  };
+
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -146,8 +173,35 @@ export function DatabaseEditor({ page }: { page: Page }) {
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
                     {columns.map(col => (
-                      <th key={col.id} className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0">
-                        {col.name}
+                      <th key={col.id} className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0 group relative min-w-[120px]">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <input
+                              type="text"
+                              value={col.name}
+                              onChange={(e) => updateColumnName(col.id, e.target.value)}
+                              className="bg-transparent border-none outline-none w-full text-gray-500 font-semibold uppercase tracking-wider focus:text-indigo-600 focus:bg-indigo-50/50 rounded px-1 -ml-1 transition-colors"
+                            />
+                            {columns.length > 1 && (
+                              <button 
+                                onClick={() => deleteColumn(col.id)}
+                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded text-gray-400 transition-opacity"
+                                title="Delete Column"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                          <select
+                            value={col.type}
+                            onChange={(e) => updateColumnType(col.id, e.target.value as any)}
+                            className="text-[10px] bg-transparent border border-gray-200 rounded px-1 py-0.5 text-gray-500 outline-none w-fit cursor-pointer hover:bg-gray-50"
+                          >
+                            <option value="text">Text</option>
+                            <option value="status">Status</option>
+                            <option value="date">Date</option>
+                          </select>
+                        </div>
                       </th>
                     ))}
                     <th className="px-4 py-3 w-10">
@@ -172,6 +226,13 @@ export function DatabaseEditor({ page }: { page: Page }) {
                                 <option key={opt} value={opt}>{opt}</option>
                               ))}
                             </select>
+                          ) : col.type === 'date' ? (
+                            <input
+                              type="date"
+                              value={row[col.id] || ''}
+                              onChange={(e) => updateRow(row.id, col.id, e.target.value)}
+                              className="bg-transparent border-none outline-none text-sm w-full text-gray-700"
+                            />
                           ) : (
                             <input
                               type="text"

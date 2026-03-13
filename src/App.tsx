@@ -2,6 +2,7 @@ import { Sidebar } from './components/Sidebar';
 import { DocumentEditor } from './components/DocumentEditor';
 import { WhiteboardEditor } from './components/WhiteboardEditor';
 import { DatabaseEditor } from './components/DatabaseEditor';
+import { AIAssistant } from './components/AIAssistant';
 import { useStore } from './store/useStore';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from './db/db';
@@ -43,12 +44,12 @@ export default function App() {
           <div className="w-9"></div> {/* Spacer for centering */}
         </div>
 
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative min-h-0">
           {activePage ? (
             <>
-              {activePage.type === 'document' && <DocumentEditor page={activePage} />}
-              {activePage.type === 'whiteboard' && <WhiteboardEditor page={activePage} />}
-              {activePage.type === 'database' && <DatabaseEditor page={activePage} />}
+              {activePage.type === 'document' && <DocumentEditor key={activePage.id} page={activePage} />}
+              {activePage.type === 'whiteboard' && <WhiteboardEditor key={activePage.id} page={activePage} />}
+              {activePage.type === 'database' && <DatabaseEditor key={activePage.id} page={activePage} />}
             </>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50/50 p-6">
@@ -82,6 +83,7 @@ export default function App() {
           )}
         </div>
       </main>
+      <AIAssistant />
     </div>
   );
 }
